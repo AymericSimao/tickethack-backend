@@ -14,7 +14,7 @@ router.get("/", function (req, res) {
   let { departure, arrival, date } = req.query;
   departure = cleanCityName(departure);
   arrival = cleanCityName(arrival);
-  startDate = moment(Number(date)).startOf("day");
+  startDate = moment(Number(date));
   endDate = startDate.clone().add(1, "day");
 
   // Fetch matching trips
