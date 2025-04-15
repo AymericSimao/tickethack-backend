@@ -66,5 +66,12 @@ router.get('/:id',(req,res) => {
   Cart.findOne({_id: req.params.id}).populate('trips').then(data => res.json({result: data.trips}))
 })
 
+//DELETE /trip supprime l'ID stocké dans le panier
+router.delete('/trip',(req,res) => {
+  let {cartId, tripId}=req.body
+  Cart.updateOne({_id: cartId}, {$pull: {trips: tripId}}).then(data => { 
+      console.log(data);
+      res.json({result: data.trips})})
+  })
 
 module.exports = router;
