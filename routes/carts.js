@@ -43,7 +43,7 @@ router.put("/trip", function (req, res) {
     });
 });
 
-router.post("/new", function (req, res) {
+router.get("/new", function (req, res) {
   newCart = new Cart({});
   newCart
     .save()
