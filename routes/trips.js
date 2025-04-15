@@ -11,11 +11,10 @@ function cleanCityName(cityName) {
 /* GET home page. */
 router.get("/", function (req, res) {
   // Prepare params:
-  //TODO: add checkBody() and condition
-  let { departure, arrival, date } = req.body;
+  let { departure, arrival, date } = req.query;
   departure = cleanCityName(departure);
   arrival = cleanCityName(arrival);
-  startDate = moment(date).startOf("day");
+  startDate = moment(Number(date)).startOf("day");
   endDate = startDate.clone().add(1, "day");
 
   // Fetch matching trips
