@@ -7,6 +7,7 @@ const Trip = require("../models/trips");
 function cleanCityName(cityName) {
   return cityName[0].toUpperCase() + cityName.slice(1).toLowerCase();
 }
+
 /* GET home page. */
 router.get("/", function (req, res) {
   // Prepare params:
