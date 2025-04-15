@@ -1,9 +1,9 @@
 var express = require("express");
 var router = express.Router();
-var moment = require("moment");
 
 const Cart = require("../models/carts");
 
+//PUT /trip permet d'ajouter un trip de plus dans mon panier
 router.put("/trip", function (req, res) {
   //TODO: checkBody(req.body, ['cartId', 'tripId'])
   let result = {};
@@ -43,6 +43,7 @@ router.put("/trip", function (req, res) {
     });
 });
 
+//GET /new permet d'afficher le trip ajouté au panier
 router.get("/new", function (req, res) {
   newCart = new Cart({});
   newCart
@@ -59,5 +60,11 @@ router.get("/new", function (req, res) {
       });
     });
 });
+
+//GET / affiche les trips dans mon panier
+router.get('/:id',(req,res) => {
+  Cart.findOne({_id: req.params.id}).populate('trips').then(data => res.json({result: data.trips}))
+})
+
 
 module.exports = router;
