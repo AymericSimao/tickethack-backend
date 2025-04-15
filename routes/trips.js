@@ -23,25 +23,33 @@ router.get("/", function (req, res) {
     departure: departure,
     arrival: arrival,
     date: { $gte: startDate, $lt: endDate },
-  }).then((data) => {
-    console.log(`Fetched ${data.length} trips matching params`);
+  })
+    .then((data) => {
+      console.log(`Fetched ${data.length} trips matching params`);
 
-    if (data.length === 0) {
-      // If no trips found
+      if (data.length === 0) {
+        // If no trips found
+        res.json({
+          result: false,
+          message: `${data.length} matching trips found`,
+          trips: data,
+        });
+      } else {
+        // Trips found, youpi!
+        res.json({
+          result: true,
+          message: `${data.length} matching trips found`,
+          trips: data,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error.message);
       res.json({
         result: false,
-        message: `${data.length} matching trips found`,
-        trips: data,
+        message: error.message,
       });
-    } else {
-      // Trips found, youpi!
-      res.json({
-        result: true,
-        message: `${data.length} matching trips found`,
-        trips: data,
-      });
-    }
-  });
+    });
 });
 
 module.exports = router;
