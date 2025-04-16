@@ -27,7 +27,7 @@ router.post('/',(req,res) => {
 //GET "/" affiche tous les bookings enregistré
 router.get('/',(req,res)=>{
 Booking.find().then(data=> {
-    res.json({result: data.result})
+    res.json({result: data.trip})
 })
 
 .catch((error) => {
