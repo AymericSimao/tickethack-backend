@@ -51,4 +51,14 @@ router.get("/", function (req, res) {
     });
 });
 
+router.get("/city", async function (req, res) {
+  departureCities = await Trip.distinct("departure");
+  arrivalCities = await Trip.distinct("arrival");
+  res.json({
+    result: true,
+    departure: departureCities,
+    arrival: arrivalCities,
+  });
+});
+
 module.exports = router;
