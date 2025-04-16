@@ -26,8 +26,15 @@ router.post('/',(req,res) => {
 
 //GET "/" affiche tous les bookings enregistré
 router.get('/',(req,res)=>{
-Booking.find().then(data=> {
-    res.json({result: data.trip})
+Booking.find().populate('trip').then(data=> {
+  tripsArr = []
+  for (let i=0;i<data.length;i++){//boucle pour entrer dans les ID bookings
+    for(let j=0;j<data[i].trip.length;j++){//boucle pour entrer dans les infos populate des trip enregistrés du booking
+      tripsArr=tripsArr.concat(data[i].trip) //concaténation du tableau vide tripArr avec tous les tableaux populate des trip
+    }
+  }
+  res.json({result: tripsArr})
+
 })
 
 .catch((error) => {
