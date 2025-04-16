@@ -61,17 +61,57 @@ router.get("/new", function (req, res) {
     });
 });
 
-//GET / affiche les trips dans mon panier
-router.get('/:id',(req,res) => {
-  Cart.findOne({_id: req.params.id}).populate('trips').then(data => res.json({result: data.trips}))
-})
+//GET /:cartId [affiche l'élément cart]
+router.get("/:cartId", (req, res) => {
+  Cart.findOne({ _id: req.params.cartId })
+    .populate("trips")
+    .then((data) => {
+      if (data._id) {
+        res.json({
+          result: true,
+          cart: data,
+          message: `Able to find Cart ${req.params.cartId}`,
+        });
+      } else {
+        res.json({
+          result: false,
+          message: `Not able to find Cart ${req.params.cartId}`,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error.message);
+      res.json({
+        result: false,
+        message: error.message,
+      });
+    });
+});
 
-//DELETE /trip supprime l'ID stocké dans le panier
-router.delete('/trip',(req,res) => {
-  let {cartId, tripId}=req.body
-  Cart.updateOne({_id: cartId}, {$pull: {trips: tripId}}).then(data => { 
-      console.log(data);
-      res.json({result: data.trips})})
-  })
+//DELETE /trip [supprime l'ID stocké dans le panier]
+router.delete("/trip", (req, res) => {
+  let { cartId, tripId } = req.body;
+  Cart.updateOne({ _id: cartId }, { $pull: { trips: tripId } })
+    .then((data) => {
+      if (data.modifiedCount === 1) {
+        res.json({
+          result: true,
+          message: `Trip ${tripId} has been removed from Cart ${cartId}`,
+        });
+      } else {
+        res.json({
+          result: false,
+          message: `Enable to remove Trip ${tripId} from Cart ${cartId}`,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error.message);
+      res.json({
+        result: false,
+        message: error.message,
+      });
+    });
+});
 
 module.exports = router;
