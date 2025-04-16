@@ -114,4 +114,22 @@ router.delete("/trip", (req, res) => {
     });
 });
 
+// GET /count/:cartId [Get the number of items in the cart]
+router.get("/count/:cartId", (req, res) => {
+  Cart.findById(req.params.cartId)
+    .then((data) => {
+      res.json({
+        result: true,
+        cartId: req.params.cartId,
+        tripCount: data.trips.length,
+      });
+    })
+    .catch((error) => {
+      res.json({
+        result: false,
+        message: error.message,
+      });
+    });
+});
+
 module.exports = router;
