@@ -12,7 +12,7 @@ router.post('/',(req,res) => {
         trip: data.trips,
         cart: data._id,
         })
-        newBooking.save().then(data => res.json({result: "trip ajouté à bookings"}))
+        newBooking.save().then(data => res.json({result: "trip(s) ajouté à bookings"}))
 })
 .catch((error) => {
     console.log(error.message);
@@ -26,9 +26,10 @@ router.post('/',(req,res) => {
 
 //GET "/" affiche tous les bookings enregistré
 router.get('/',(req,res)=>{
-Booking.find({}).then(data=>
-    res.json({result: data})
-)
+Booking.find().then(data=> {
+    res.json({result: data.result})
+})
+
 .catch((error) => {
     console.log(error.message);
     res.json({
